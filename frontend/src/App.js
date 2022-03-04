@@ -1,8 +1,11 @@
-import './App.css';
+import React from 'react';
+
+import PinMap from './components/map/PinMap';
 
 function App() {
   return (
-    <div className="App">
+    <div style={{ height: "100vh", width: "100%" }}>
+      <PinMap/>
     </div>
   );
 }
