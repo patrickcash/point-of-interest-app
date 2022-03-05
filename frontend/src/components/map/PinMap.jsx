@@ -6,16 +6,21 @@ import axios from "axios";
 import Map from "react-map-gl";
 import Pin from '../pin/Pin';
 import NewPin from '../pin/NewPin';
+import Register from '../user/Register';
+import Login from '../user/Login';
 
 export default function PinMap() {
+  const myStorage = window.localStorage;
   const mapRef = useRef(null);
   const [pins, setPins] = useState([]);
-  const [currentUsername, setCurrentUsername] = useState("patrick");
+  const [currentUsername, setCurrentUsername] = useState(myStorage.getItem("user"));
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
   const [newPlace, setNewPlace] = useState(null);
   const [title, setTitle] = useState(null);
   const [review, setReview] = useState(null);
   const [star, setStar] = useState(0);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleMarkerClick = (id, lat, long) => {
     mapRef.current.flyTo({center: [long, lat]});
@@ -49,6 +54,11 @@ export default function PinMap() {
     }
   }
 
+  const handleLogout = () => {
+    setCurrentUsername(null);
+    myStorage.removeItem("user");
+  };
+  
   useEffect(() => {
     const getPins = async () => {
       try {
@@ -83,6 +93,16 @@ export default function PinMap() {
       >
         {pins.map(pin => <Pin {...{pin, currentPlaceId, currentUsername, handleMarkerClick, setCurrentPlaceId}}/>)}
         {newPlace && <NewPin {...{newPlace, setNewPlace, setTitle, setReview, setStar, handleSubmit}}/>}
+        {currentUsername ?  
+          <button className="button logout" onClick={handleLogout}>Logout</button> 
+          : (
+            <div className="buttons">
+              <button className="button login" onClick={() => setShowLogin(true)}>Login</button>
+              <button className="button register" onClick={() => setShowRegister(true)}>Register</button>
+            </div>
+        )}
+        {showRegister && <Register {...{setShowRegister}} />}
+        {showLogin && <Login {...{setShowLogin, setCurrentUsername, myStorage}}/>}
       </Map>
     );
 }

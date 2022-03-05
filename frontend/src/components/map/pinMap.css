@@ -1,2 +1,27 @@
 
   
+.button{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.login{
+    background-color: green;
+}
+
+.logout{
+    background-color: red;
+}
+
+.register{
+    background-color: blue;
+    margin-left: 2px;
+}
+
+.buttons, .logout{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
