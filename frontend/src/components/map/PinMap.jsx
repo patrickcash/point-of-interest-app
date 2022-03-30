@@ -4,10 +4,15 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 import axios from "axios";
 import Map from "react-map-gl";
+
 import Pin from '../pin/Pin';
 import NewPin from '../pin/NewPin';
 import Register from '../user/Register';
 import Login from '../user/Login';
+
+import mapboxgl from "mapbox-gl"; 
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 export default function PinMap() {
   const myStorage = window.localStorage;
